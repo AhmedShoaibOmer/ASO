@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1092167165065",
+    "firebase_url": "https://asoplayer-48971.firebaseio.com",
+    "project_id": "asoplayer-48971",
+    "storage_bucket": "asoplayer-48971.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1092167165065:android:15208bc734abf689d35258",
+        "android_client_info": {
+          "package_name": "aso.mo.asoplayer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1092167165065-vlkaqelvnpo5kidjkvlfc407kl613bsk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDM_N8D4xvi7nqVi3IjoN1MXI-Xw-5y4is"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1092167165065-vlkaqelvnpo5kidjkvlfc407kl613bsk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
