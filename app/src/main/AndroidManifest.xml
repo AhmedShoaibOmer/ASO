@@ -2,9 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="aso.mo.asoplayer">
 
-
-    <!-- TODO: Support picture-in-picture for video player -->
-    <!-- TODO: Support in app updates -->
+    <!-- For Glide to restart connection requests when internet comes up -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".common.App"
@@ -18,11 +22,9 @@
             android:name=".main.MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar.ColoredStatusBar" />
-
         <activity
             android:name=".getStarted.GetStartedActivity"
             android:theme="@style/AppTheme.NoActionBar.DarkTheme" />
-
         <activity
             android:name=".splash.SplashActivity"
             android:label="@string/app_name"
@@ -54,14 +56,5 @@
             </intent-filter>
         </service>
     </application>
-
-    <!-- For Glide to restart connection requests when internet comes up -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
 
 </manifest>

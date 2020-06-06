@@ -1,9 +1,7 @@
-// Copyright (c) 2019 . Wilberforce Uwadiegwu. All Rights Reserved.
 
 package aso.mo.asoplayer.main.playback
 
 
-import android.animation.Animator
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
 import android.graphics.drawable.Animatable
@@ -13,21 +11,25 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.activity.addCallback
+import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.constraintlayout.motion.widget.MotionLayout.TransitionListener
 import androidx.core.view.children
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.transition.TransitionInflater
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import aso.mo.asoplayer.R
-import aso.mo.asoplayer.common.*
 import aso.mo.asoplayer.databinding.FragmentPlaybackBinding
-import aso.mo.asoplayer.main.common.callbacks.AnimatorListener
+import aso.mo.asoplayer.databinding.FragmentPlaybackContentBinding
 import aso.mo.asoplayer.main.common.callbacks.OnSeekBarChangeListener
 import aso.mo.asoplayer.main.common.view.BaseFragment
-import kotlinx.android.synthetic.main.fragment_playback.*
+import aso.mo.asoplayer.main.common.view.awaitTransitionComplete
+import kotlinx.android.synthetic.main.fragment_playback_content.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.concurrent.TimeUnit
 
@@ -38,10 +40,37 @@ class PlaybackFragment : BaseFragment(), View.OnClickListener {
     private val viewModel: PlaybackViewModel by sharedViewModel()
     private lateinit var rotationAnimSet: AnimatorSet
     private val handler = Handler()
+    private lateinit var contentBinding: FragmentPlaybackContentBinding
+    private var isCurrentTracksFragmentVisible = false
+
+    @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedElementEnterTransition =
-            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+
+
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+
+            if (isCurrentTracksFragmentVisible) showCurrentTracks()
+            when (contentBinding.playbackContent.currentState) {
+                R.id.end -> {
+                    transitionFromEndToStart()
+                }
+                R.id.lyricsSet -> {
+                    contentBinding.playbackContent.transitionToState(R.id.end)
+                    transitionFromEndToStart()
+                }
+                R.id.loadingLyricsSet -> {
+                    contentBinding.playbackContent.transitionToState(R.id.end)
+                    transitionFromEndToStart()
+                }
+                else -> {
+                    isEnabled = false
+                    requireActivity().onBackPressed()
+                }
+            }
+            /*   sharedElementEnterTransition =
+            TransitionInflater.from(context).inflateTransition(android.R.transition.move)*/
+        }
     }
 
 
@@ -49,8 +78,9 @@ class PlaybackFragment : BaseFragment(), View.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = FragmentPlaybackBinding.inflate(inflater, container, false).let {
-        it.viewModel = viewModel
-        it.lifecycleOwner = this
+        contentBinding = it.playerContainer.binding
+        contentBinding.viewModel = viewModel
+        contentBinding.lifecycleOwner = this
         return it.root
     }
 
@@ -63,11 +93,15 @@ class PlaybackFragment : BaseFragment(), View.OnClickListener {
 
     private fun observeViewData() {
         viewModel.mediaPosition.observe(viewLifecycleOwner, Observer {
-            if (!userTouchingSeekBar) playbackSeekBar.progress = it.toInt()
+            if (!userTouchingSeekBar) {
+                contentBinding.playbackSeekBar.progress = it.toInt()
+                contentBinding.playbackSeekBarSmall.progress = it.toInt()
+            }
         })
 
         viewModel.currentItem.observe(viewLifecycleOwner, Observer {
-            playbackSeekBar.max = it?.duration?.toInt() ?: 0
+            contentBinding.playbackSeekBar.max = it?.duration?.toInt() ?: 0
+            contentBinding.playbackSeekBarSmall.max = it?.duration?.toInt() ?: 0
         })
 
         viewModel.playbackState.observe(viewLifecycleOwner, Observer { updateState(it) })
@@ -78,15 +112,16 @@ class PlaybackFragment : BaseFragment(), View.OnClickListener {
         rotationAnimSet =
             AnimatorInflater.loadAnimator(activity, R.animator.album_art_rotation) as AnimatorSet
         rotationAnimSet.setTarget(albumArt)
-        songTitle.children.forEach { (it as TextView).isSelected = true }
-        sectionBackButton.setOnClickListener(this)
-        lyricsButton.setOnClickListener(this)
-        closeButton.setOnClickListener(this)
-        moreOptions.setOnClickListener(this)
-        playingTracks.setOnClickListener(this)
-        playbackSeekBar.setOnSeekBarChangeListener(onSeekBarChangeListener)
+        contentBinding.songTitle.children.forEach { (it as TextView).isSelected = true }
+        contentBinding.sectionBackButton.setOnClickListener(this)
+        contentBinding.lyricsButton.setOnClickListener(this)
+        contentBinding.closeButton.setOnClickListener(this)
+        contentBinding.moreOptions.setOnClickListener(this)
+        contentBinding.playingTracks.setOnClickListener(this)
+        contentBinding.albumArt.setOnClickListener(this)
+        contentBinding.playbackSeekBar.setOnSeekBarChangeListener(onSeekBarChangeListener)
+        contentBinding.playbackSeekBarSmall.setOnSeekBarChangeListener(onSeekBarChangeListener)
     }
-
 
     private fun updateState(state: PlaybackStateCompat) {
         if (state.isPlaying) {
@@ -98,13 +133,28 @@ class PlaybackFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
+    @ExperimentalCoroutinesApi
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.sectionBackButton -> findNavController().popBackStack()
+            R.id.sectionBackButton -> {
+                if (isCurrentTracksFragmentVisible) showCurrentTracks()
+                transitionFromEndToStart()
+            }
             R.id.lyricsButton -> showFindingLyrics()
             R.id.closeButton -> closeLyrics()
             R.id.moreOptions -> showMenuBottomSheet()
             R.id.playingTracks -> showCurrentTracks()
+            R.id.albumArt -> {
+                when (contentBinding.playbackContent.currentState) {
+                    R.id.start -> {
+                        transitionFromStartToEnd()
+                    }
+                    R.id.medium -> {
+                        contentBinding.playbackContent.setTransition(R.id.mediumToFullScreen)
+                        contentBinding.playbackContent.transitionToEnd()
+                    }
+                }
+            }
         }
     }
 
@@ -118,14 +168,16 @@ class PlaybackFragment : BaseFragment(), View.OnClickListener {
             activity!!,
             if (fragment != null) R.drawable.anim_close_to_playlist_current else R.drawable.anim_playlist_current_to_close
         )
-        playingTracks.setImageDrawable(animDrawable)
-        (playingTracks.drawable as Animatable).start()
+        contentBinding.playingTracks.setImageDrawable(animDrawable)
+        (contentBinding.playingTracks.drawable as Animatable).start()
         if (fragment == null) {
             childFragmentManager.beginTransaction()
                 .replace(R.id.currentSongsContainer, CurrentSongsFragment(), "CurrentSongsFragment")
                 .commit()
+            isCurrentTracksFragmentVisible = true
         } else {
             childFragmentManager.beginTransaction().remove(fragment).commit()
+            isCurrentTracksFragmentVisible = false
         }
 
     }
@@ -140,28 +192,8 @@ class PlaybackFragment : BaseFragment(), View.OnClickListener {
     }
 
     private fun closeLyrics() {
-        val animatorSet = AnimatorSet()
-        animatorSet.playTogether(
-            albumArt.fadeInSlideDown(translationY, slideDuration),
-            lyricsButton.fadeInSlideDown(translationY, slideDuration),
-            closeButton.fadeOutSlideDown(translationY, slideDuration),
-            quoteImg.fadeOutSlideDown(translationY, slideDuration),
-            lyricsText.fadeOutSlideDown(translationY, slideDuration),
-            lyricsSource.fadeOutSlideDown(translationY, slideDuration)
-        )
-        animatorSet.interpolator = AccelerateDecelerateInterpolator()
-        animatorSet.addListener(object : AnimatorListener {
-            override fun onAnimationStart(animation: Animator?) {
-                albumArtGroup.visibility = View.VISIBLE
-            }
-
-            override fun onAnimationEnd(animation: Animator?) {
-                lyricsGroup.visibility = View.GONE
-                animatorSet.removeAllListeners()
-            }
-        })
-
-        animatorSet.start()
+        contentBinding.playbackContent.setTransition(R.id.lyricsToEnd)
+        contentBinding.playbackContent.transitionToEnd()
     }
 
     private fun showFindingLyrics() {
@@ -169,32 +201,14 @@ class PlaybackFragment : BaseFragment(), View.OnClickListener {
             showFoundLyrics()
             return
         }
-        val animatorSet = AnimatorSet()
-        animatorSet.playTogether(
-            albumArt.fadeOutSlideUp(translationY, slideDuration),
-            lyricsButton.fadeOutSlideUp(translationY, slideDuration),
-            progressBar.fadeInSlideUp(translationY, slideDuration),
-            findingLyrics.fadeInSlideUp(translationY, slideDuration)
-        )
-        animatorSet.interpolator = AccelerateDecelerateInterpolator()
-        animatorSet.addListener(object : AnimatorListener {
-            override fun onAnimationStart(animation: Animator?) {
-                loadingLyricsGroup.visibility = View.VISIBLE
-            }
-
-            override fun onAnimationEnd(animation: Animator?) {
-                albumArtGroup.visibility = View.GONE
-                Handler().postDelayed({
-                    showFoundLyrics(
-                        getString(R.string.dummyLyrics),
-                        getString(R.string.dummyLyricsSource)
-                    )
-                }, TimeUnit.SECONDS.toMillis(4))
-                animatorSet.removeAllListeners()
-            }
-        })
-
-        animatorSet.start()
+        contentBinding.playbackContent.setTransition(R.id.endToLoadingLyrics)
+        contentBinding.playbackContent.transitionToEnd()
+        Handler().postDelayed({
+            showFoundLyrics(
+                getString(R.string.dummyLyrics),
+                getString(R.string.dummyLyricsSource)
+            )
+        }, TimeUnit.SECONDS.toMillis(4))
     }
 
     private fun showFoundLyrics(lyrics: String? = null, source: String? = null) {
@@ -203,36 +217,17 @@ class PlaybackFragment : BaseFragment(), View.OnClickListener {
             lyricsText.text = lyrics
             lyricsSource.text = source
         }
-
-        val animatorSet = AnimatorSet()
-        animatorSet.playTogether(
-            if (!lyricsIsEmpty) progressBar.fadeOutSlideUp(translationY, slideDuration) else
-                albumArt.fadeOutSlideUp(translationY, slideDuration),
-            if (!lyricsIsEmpty) findingLyrics.fadeOutSlideUp(translationY, slideDuration) else
-                lyricsButton.fadeOutSlideUp(translationY, slideDuration),
-            closeButton.fadeInSlideUp(translationY, slideDuration),
-            quoteImg.fadeInSlideUp(translationY, slideDuration),
-            lyricsText.fadeInSlideUp(translationY, slideDuration),
-            lyricsSource.fadeInSlideUp(translationY, slideDuration)
-        )
-
-        animatorSet.interpolator = AccelerateDecelerateInterpolator()
-        animatorSet.addListener(object : AnimatorListener {
-            override fun onAnimationStart(animation: Animator?) {
-                lyricsGroup.visibility = View.VISIBLE
-            }
-
-            override fun onAnimationEnd(animation: Animator?) {
-                if (!lyricsIsEmpty) loadingLyricsGroup.visibility =
-                    View.GONE else albumArtGroup.visibility = View.GONE
-                animatorSet.removeAllListeners()
-            }
-        })
-        animatorSet.start()
+        if (contentBinding.playbackContent.currentState == R.id.loadingLyricsSet) {
+            contentBinding.playbackContent.setTransition(R.id.loadingLyricsToLyrics)
+            contentBinding.playbackContent.transitionToEnd()
+        } else {
+            contentBinding.playbackContent.setTransition(R.id.endToLyrics)
+            contentBinding.playbackContent.transitionToEnd()
+        }
     }
 
 
-    private fun hasLyrics() = !lyricsText.text.isNullOrEmpty()
+    private fun hasLyrics() = !contentBinding.lyricsText.text.isNullOrEmpty()
 
     private val onSeekBarChangeListener = object : OnSeekBarChangeListener {
 
@@ -244,8 +239,53 @@ class PlaybackFragment : BaseFragment(), View.OnClickListener {
             viewModel.seek(seekBar?.progress?.toLong() ?: 0)
             // Let's delay the updating of the userTouchingSeekBar to ensure the seek has taken effect before
             // continuing to update the progress bar
-            handler.postDelayed({ userTouchingSeekBar = false }, 200)
+            handler.postDelayed({ userTouchingSeekBar = false }, 300)
         }
+
+    }
+
+    private fun transitionFromEndToStart() {
+        contentBinding.playbackContent.setTransition(R.id.mediumToFullScreen)
+        contentBinding.playbackContent.setTransitionListener(object : TransitionListener {
+            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
+            }
+
+            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
+            }
+
+            override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
+            }
+
+            override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
+                contentBinding.playbackContent.setTransition(R.id.smallToMedium)
+                contentBinding.playbackContent.transitionToStart()
+            }
+
+        })
+        contentBinding.playbackContent.transitionToStart()
+
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun transitionFromStartToEnd() {
+        contentBinding.playbackContent.setTransition(R.id.smallToMedium)
+        contentBinding.playbackContent.setTransitionListener(object : TransitionListener {
+            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
+            }
+
+            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
+            }
+
+            override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
+            }
+
+            override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
+                contentBinding.playbackContent.setTransition(R.id.mediumToFullScreen)
+                contentBinding.playbackContent.transitionToEnd()
+            }
+
+        })
+        contentBinding.playbackContent.transitionToEnd()
 
     }
 
@@ -256,6 +296,3 @@ class PlaybackFragment : BaseFragment(), View.OnClickListener {
 
 
 }
-
-private const val slideDuration = 600L
-private val translationY = 110F.px

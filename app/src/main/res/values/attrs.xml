@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  Copyright (c) 2019 . Wilberforce Uwadiegwu. All Rights Reserved.
+  ~ Copyright (c) ASO 2020.
   -->
 
 <resources>
+    <declare-styleable name="PlayerLayoutOverlay">
+        <attr name="touchableArea" format="reference" />
+        <attr name="clickableArea" format="reference" />
+    </declare-styleable>
     <declare-styleable name="DialogFragmentNavigator">
         <attr name="android:name" />
+    </declare-styleable>
+
+    <!-- Declare custom theme attributes that allow changing which styles are
+         used for button bars depending on the API level.
+         ?android:attr/buttonBarStyle is new as of API 11 so this is
+         necessary to support previous API levels. -->
+    <declare-styleable name="ButtonBarContainerTheme">
+        <attr name="metaButtonBarStyle" format="reference" />
+        <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 </resources>

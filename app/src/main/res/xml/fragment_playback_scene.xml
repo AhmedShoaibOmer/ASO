@@ -1,0 +1,862 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ConstraintSet android:id="@+id/start">
+
+        <Constraint
+            android:id="@+id/countdownDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_large"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="@+id/playbackSeekBarSmall"
+            app:layout_constraintTop_toBottomOf="@+id/playbackSeekBarSmall" />
+
+        <Constraint
+            android:id="@+id/totalDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="@+id/playbackSeekBarSmall"
+            app:layout_constraintTop_toBottomOf="@+id/playbackSeekBarSmall" />
+
+        <Constraint
+            android:id="@+id/playbackSeekBarSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@id/video_overlay_touchable_area"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/video_overlay_touchable_area" />
+
+        <Constraint
+            android:id="@+id/playbackSeekBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/playbackSeekBarSmall"
+            app:layout_constraintEnd_toEndOf="@+id/playbackSeekBarSmall"
+            app:layout_constraintStart_toStartOf="@+id/playbackSeekBarSmall"
+            app:layout_constraintTop_toTopOf="@+id/playbackSeekBarSmall" />
+
+        <Constraint
+            android:id="@+id/albumArt"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="@dimen/margin_large"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/bottom_horizontal_guideline" />
+        <Constraint
+            android:id="@+id/songArtist"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/songArtistSmall"
+            app:layout_constraintEnd_toEndOf="@id/songArtistSmall"
+            app:layout_constraintStart_toStartOf="@id/songArtistSmall"
+            app:layout_constraintTop_toBottomOf="@id/songArtistSmall" />
+        <Constraint
+            android:id="@+id/songTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/songTitleSmall"
+            app:layout_constraintEnd_toEndOf="@id/songTitleSmall"
+            app:layout_constraintStart_toStartOf="@id/songTitleSmall"
+            app:layout_constraintTop_toTopOf="@id/songTitleSmall" />
+        <Constraint
+            android:id="@+id/songTitleSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@id/bottom_x_horizontal_guideline"
+            app:layout_constraintEnd_toStartOf="@+id/playPauseButton"
+            app:layout_constraintStart_toEndOf="@id/albumArt"
+            app:layout_constraintTop_toBottomOf="@id/bottom_horizontal_guideline"
+            app:layout_constraintVertical_bias="0.9" />
+        <Constraint
+            android:id="@+id/songArtistSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/playPauseButton"
+            app:layout_constraintStart_toEndOf="@id/albumArt"
+            app:layout_constraintTop_toBottomOf="@+id/bottom_x_horizontal_guideline"
+            app:layout_constraintVertical_bias="0.1" />
+        <Constraint
+            android:id="@+id/playPauseButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="@dimen/margin_large"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/nextButton"
+            app:layout_constraintTop_toTopOf="@id/bottom_horizontal_guideline" />
+        <Constraint
+            android:id="@+id/nextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_large"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/bottom_horizontal_guideline" />
+
+        <Constraint
+            android:id="@+id/video_overlay_touchable_area"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Constraint
+            android:id="@+id/space_touch_anchor"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:id="@+id/playbackSeekBarSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/video_overlay_touchable_area"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/video_overlay_touchable_area" />
+        <Constraint
+            android:id="@+id/previousButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/playPauseButton"
+            app:layout_constraintEnd_toStartOf="@id/start_guideline"
+            app:layout_constraintTop_toTopOf="@+id/playPauseButton" />
+        <Constraint
+            android:id="@+id/repeatButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/playPauseButton"
+            app:layout_constraintEnd_toStartOf="@+id/start_guideline"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/playPauseButton" />
+        <Constraint
+            android:id="@+id/favoriteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/playPauseButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toEndOf="@id/end_guideline"
+            app:layout_constraintTop_toTopOf="@id/playPauseButton" />
+        <Constraint
+            android:id="@+id/playingTracks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@id/playbackSeekBarSmall"
+            app:layout_constraintEnd_toEndOf="parent" />
+        <Constraint
+            android:id="@+id/shuffleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/playbackSeekBarSmall"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:id="@+id/moreOptions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/top_horizontal_guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/status_bar_spacer" />
+
+        <Constraint
+            android:id="@+id/sectionBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_large"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/top_horizontal_guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/status_bar_spacer" />
+
+        <Constraint
+            android:id="@+id/currentSongsContainer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@id/shuffleButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/top_horizontal_guideline" />
+        <Constraint
+            android:id="@+id/closeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@id/third_horizontal_guideline"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+        <Constraint
+            android:id="@+id/lyricsText"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_xx_large"
+            android:layout_marginEnd="@dimen/margin_xx_large"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/lyricsSource"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/closeButton"
+            app:layout_goneMarginTop="@dimen/margin_large" />
+        <Constraint
+            android:id="@+id/lyricsSource"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@id/playPauseButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lyricsText" />
+        <Constraint
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/third_horizontal_guideline" />
+        <Constraint
+            android:id="@+id/findingLyrics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/progressBar" />
+        <Constraint
+            android:id="@+id/titles_separator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/songTitleSmall"
+            app:layout_constraintStart_toEndOf="@id/songTitleSmall"
+            app:layout_constraintTop_toTopOf="@id/songTitleSmall" />
+
+        <Constraint
+            android:id="@+id/lyricsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/shuffleButton"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/shuffleButton" />
+
+    </ConstraintSet>
+
+    <ConstraintSet
+        android:id="@+id/medium"
+        app:deriveConstraintsFrom="@id/start">
+        <Constraint
+            android:id="@+id/video_overlay_touchable_area"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/medium_horizontal_guideline" />
+        <Constraint
+            android:id="@+id/playPauseButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:layout_constraintBottom_toBottomOf="@id/bottom_x_horizontal_guideline"
+            app:layout_constraintEnd_toEndOf="@id/center_guideline"
+            app:layout_constraintStart_toStartOf="@id/center_guideline"
+            app:layout_constraintTop_toTopOf="@id/bottom_x_horizontal_guideline" />
+
+        <Constraint
+            android:id="@+id/nextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/playPauseButton"
+            app:layout_constraintEnd_toStartOf="@id/end_guideline"
+            app:layout_constraintTop_toTopOf="@id/playPauseButton" />
+
+        <Constraint
+            android:id="@+id/previousButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/playPauseButton"
+            app:layout_constraintStart_toEndOf="@id/start_guideline"
+            app:layout_constraintTop_toTopOf="@id/playPauseButton" />
+
+        <Constraint
+            android:id="@+id/albumArt"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            app:layout_constraintBottom_toTopOf="@id/medium_x_horizontal_guideline"
+            app:layout_constraintEnd_toEndOf="@id/center_guideline"
+            app:layout_constraintStart_toStartOf="@id/center_guideline"
+            app:layout_constraintTop_toTopOf="@id/medium_horizontal_guideline"
+            app:layout_constraintVertical_bias="0.9" />
+
+        <Constraint
+            android:id="@+id/songTitleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_horizontal_guideline"
+            app:layout_constraintEnd_toStartOf="@id/titles_separator"
+            app:layout_constraintStart_toStartOf="@id/start_guideline"
+            app:layout_constraintTop_toBottomOf="@+id/medium_x_horizontal_guideline"
+            app:layout_constraintVertical_bias="0.1"
+            app:layout_constraintWidth_max="120dp"
+            app:layout_constraintWidth_min="60dp" />
+
+        <Constraint
+            android:id="@+id/titles_separator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBaseline_toBaselineOf="@+id/songTitleSmall"
+            app:layout_constraintEnd_toStartOf="@id/songArtistSmall"
+            app:layout_constraintStart_toEndOf="@id/songTitleSmall" />
+
+        <Constraint
+            android:id="@+id/songArtistSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBaseline_toBaselineOf="@+id/songTitleSmall"
+            app:layout_constraintEnd_toEndOf="@id/end_guideline"
+            app:layout_constraintStart_toEndOf="@+id/titles_separator"
+            app:layout_constraintWidth_max="120dp"
+            app:layout_constraintWidth_min="60dp" />
+        <Constraint
+            android:id="@+id/favoriteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@id/nextButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/end_guideline"
+            app:layout_constraintTop_toTopOf="@id/nextButton" />
+
+        <Constraint
+            android:id="@+id/repeatButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:layout_constraintBottom_toBottomOf="@id/previousButton"
+            app:layout_constraintEnd_toStartOf="@id/start_guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/previousButton" />
+        <Constraint
+            android:id="@+id/space_touch_anchor"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Constraint
+            android:id="@+id/playbackSeekBarSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@id/medium_horizontal_guideline"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/medium_horizontal_guideline" />
+
+        <Constraint
+            android:id="@+id/countdownDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_large"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="@+id/playbackSeekBarSmall"
+            app:layout_constraintTop_toBottomOf="@+id/playbackSeekBarSmall" />
+        <Constraint
+            android:id="@+id/totalDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="@+id/playbackSeekBarSmall"
+            app:layout_constraintTop_toBottomOf="@+id/playbackSeekBarSmall" />
+
+
+    </ConstraintSet>
+
+    <ConstraintSet
+        android:id="@+id/end"
+        app:deriveConstraintsFrom="@id/medium">
+
+        <Constraint
+            android:id="@+id/countdownDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="@+id/playbackSeekBar"
+            app:layout_constraintTop_toBottomOf="@+id/playbackSeekBar" />
+
+        <Constraint
+            android:id="@+id/totalDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="@+id/playbackSeekBar"
+            app:layout_constraintTop_toBottomOf="@+id/playbackSeekBar" />
+
+        <Constraint
+            android:id="@+id/playbackSeekBarSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/medium_horizontal_guideline"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/medium_horizontal_guideline" />
+        <Constraint
+            android:id="@+id/playbackSeekBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@id/medium_horizontal_guideline"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/medium_horizontal_guideline" />
+        <Constraint
+            android:id="@+id/playPauseButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@+id/center_guideline"
+            app:layout_constraintStart_toStartOf="@+id/center_guideline"
+            app:layout_constraintTop_toBottomOf="@+id/medium_horizontal_guideline" />
+        <Constraint
+            android:id="@+id/nextButton"
+            android:layout_width="48dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/playPauseButton"
+            app:layout_constraintEnd_toEndOf="@id/end_guideline"
+            app:layout_constraintTop_toTopOf="@+id/playPauseButton" />
+        <Constraint
+            android:id="@+id/previousButton"
+            android:layout_width="48dp"
+            android:layout_height="0dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/playPauseButton"
+            app:layout_constraintStart_toStartOf="@id/start_guideline"
+            app:layout_constraintTop_toTopOf="@+id/playPauseButton" />
+        <Constraint
+            android:id="@+id/repeatButton"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@id/previousButton"
+            app:layout_constraintEnd_toStartOf="@+id/start_guideline"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/previousButton" />
+        <Constraint
+            android:id="@+id/favoriteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/nextButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="@+id/end_guideline"
+            app:layout_constraintTop_toTopOf="@+id/nextButton" />
+        <Constraint
+            android:id="@+id/moreOptions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/top_horizontal_guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/status_bar_spacer" />
+
+        <Constraint
+            android:id="@+id/sectionBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_large"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/top_horizontal_guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/status_bar_spacer" />
+
+        <Constraint
+            android:id="@+id/playingTracks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@id/playbackSeekBarSmall"
+            app:layout_constraintEnd_toEndOf="parent" />
+        <Constraint
+            android:id="@+id/shuffleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/playbackSeekBarSmall"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:id="@+id/albumArt"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_large"
+            app:layout_constraintBottom_toTopOf="@id/center_horizontal_guideline"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_max="270dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/top_horizontal_guideline" />
+        <Constraint
+            android:id="@+id/lyricsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@id/shuffleButton"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/shuffleButton" />
+        <Constraint
+            android:id="@+id/songTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_x_large"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_x_large"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/albumArt" />
+        <Constraint
+            android:id="@+id/songTitleSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/songTitle"
+            app:layout_constraintEnd_toEndOf="@id/songTitle"
+            app:layout_constraintStart_toStartOf="@id/songTitle"
+            app:layout_constraintTop_toTopOf="@id/songTitle" />
+        <Constraint
+            android:id="@+id/songArtistSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/songArtist"
+            app:layout_constraintEnd_toEndOf="@id/songArtist"
+            app:layout_constraintStart_toStartOf="@id/songArtist"
+            app:layout_constraintTop_toTopOf="@id/songArtist" />
+        <Constraint
+            android:id="@+id/songArtist"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_x_large"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_x_large"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/songTitle" />
+
+        <Constraint
+            android:id="@+id/video_overlay_touchable_area"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <Constraint
+            android:id="@+id/closeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@id/third_horizontal_guideline"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+        <Constraint
+            android:id="@+id/lyricsText"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_xx_large"
+            android:layout_marginEnd="@dimen/margin_xx_large"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/lyricsSource"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/closeButton"
+            app:layout_goneMarginTop="@dimen/margin_large" />
+        <Constraint
+            android:id="@+id/lyricsSource"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@id/playPauseButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lyricsText" />
+        <Constraint
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/third_horizontal_guideline" />
+        <Constraint
+            android:id="@+id/findingLyrics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/progressBar" />
+        <Constraint
+            android:id="@+id/titles_separator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/songTitle"
+            app:layout_constraintStart_toEndOf="@id/songTitle"
+            app:layout_constraintTop_toTopOf="@id/songTitle" />
+        <Constraint
+            android:id="@+id/space_touch_anchor"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </ConstraintSet>
+
+    <ConstraintSet
+        android:id="@+id/loadingLyricsSet"
+        app:deriveConstraintsFrom="@+id/end">
+        <Constraint
+            android:id="@+id/albumArt"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/third_horizontal_guideline"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_max="270dp"
+            app:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:id="@+id/songTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_x_large"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_x_large"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/albumArt" />
+        <Constraint
+            android:id="@+id/songArtist"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_x_large"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_x_large"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/songTitle" />
+        <Constraint
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/third_horizontal_guideline" />
+        <Constraint
+            android:id="@+id/findingLyrics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/progressBar" />
+        <Constraint
+            android:id="@+id/lyricsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/center_horizontal_guideline" />
+    </ConstraintSet>
+
+    <ConstraintSet
+        android:id="@+id/lyricsSet"
+        app:deriveConstraintsFrom="@+id/end">
+        <Constraint
+            android:id="@+id/albumArt"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/third_horizontal_guideline"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_max="270dp"
+            app:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:id="@+id/songTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_x_large"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_x_large"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/albumArt" />
+        <Constraint
+            android:id="@+id/songArtist"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_x_large"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_x_large"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/songTitle" />
+        <Constraint
+            android:id="@+id/lyricsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/center_horizontal_guideline" />
+        <Constraint
+            android:id="@+id/closeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/top_horizontal_guideline" />
+        <Constraint
+            android:id="@+id/lyricsText"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_xx_large"
+            android:layout_marginEnd="@dimen/margin_xx_large"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/lyricsSource"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/closeButton"
+            app:layout_goneMarginTop="@dimen/margin_large" />
+        <Constraint
+            android:id="@+id/lyricsSource"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@id/shuffleButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/shuffleButton" />
+    </ConstraintSet>
+
+    <Transition
+        android:id="@+id/smallToMedium"
+        app:constraintSetEnd="@+id/medium"
+        app:constraintSetStart="@+id/start"
+        app:duration="600"
+        app:motionInterpolator="linear">
+        <OnSwipe
+            app:dragDirection="dragUp"
+            app:touchAnchorId="@id/space_touch_anchor"
+            app:touchAnchorSide="top" />
+    </Transition>
+
+    <Transition
+        android:id="@+id/mediumToFullScreen"
+        app:constraintSetEnd="@+id/end"
+        app:constraintSetStart="@+id/medium"
+        app:duration="600"
+        app:motionInterpolator="linear" />
+
+    <Transition
+        android:id="@+id/endToLoadingLyrics"
+        app:constraintSetEnd="@+id/loadingLyricsSet"
+        app:constraintSetStart="@+id/end"
+        app:duration="600" />
+
+    <Transition
+        android:id="@+id/loadingLyricsToLyrics"
+        app:constraintSetEnd="@+id/lyricsSet"
+        app:constraintSetStart="@+id/loadingLyricsSet"
+        app:duration="600" />
+
+    <Transition
+        android:id="@+id/endToLyrics"
+        app:constraintSetEnd="@+id/lyricsSet"
+        app:constraintSetStart="@+id/end"
+        app:duration="600" />
+
+    <Transition
+        android:id="@+id/lyricsToEnd"
+        app:constraintSetEnd="@+id/end"
+        app:constraintSetStart="@+id/lyricsSet"
+        app:duration="600" />
+
+</MotionScene>

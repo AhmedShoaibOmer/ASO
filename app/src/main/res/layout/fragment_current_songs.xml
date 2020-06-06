@@ -10,6 +10,7 @@
     android:background="@color/colorBackground"
     android:requiresFadingEdge="vertical"
     android:fadingEdgeLength="50dp"
+    android:overScrollMode="never"
     android:scrollbars="vertical"
     android:fadeScrollbars="false"
     tools:context=".main.playback.CurrentSongsFragment" />
